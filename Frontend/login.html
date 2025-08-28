@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | Heart Care</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+<body class="auth-background">
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="nav_logo">Heart Care</a>
+            <button class="button" id="login-button">Login</button>
+        </nav>
+    </header>
+
+    <section class="home">
+        <div class="form_container">
+            <div class="form login_form">
+                <form id="login-form">
+                    <h2>Login</h2>
+                    <div id="auth-message"></div>
+                    <div class="input_box">
+                        <input type="email" id="login-email" placeholder="Enter your email" required />
+                        <i class="uil uil-envelope-alt email"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" id="login-password" placeholder="Enter your password" required />
+                        <i class="uil uil-lock password"></i>
+                    </div>
+                    <div class="option_field">
+                        <span class="checkbox">
+                            <input type="checkbox" id="check" />
+                            <label for="check">Remember me</label>
+                        </span>
+                        <a href="./forgot_password.html" class="forgot_pw">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="button">Login Now</button>
+                    <div class="login_signup">Don't have an account? <a href="register.html">Signup</a></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // JavaScript for login
+        document.addEventListener('DOMContentLoaded', () => {
+            const API_BASE_URL = 'http://localhost:8080';
+            const loginForm = document.getElementById('login-form');
+            const authMessage = document.getElementById('auth-message');
+
+            if (sessionStorage.getItem('userCredentials')) {
+                window.location.href = './predict.html';
+            }
+
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                const credentials = btoa(`${email}:${password}`);
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+
+                    if (response.ok) {
+                        sessionStorage.setItem('userCredentials', credentials);
+                        window.location.href = './predict.html';
+                    } else {
+                        const errorText = await response.text();
+                        authMessage.innerHTML = `<div style="color: red; text-align: center; margin-bottom: 1rem;">${errorText}</div>`;
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    authMessage.innerHTML = `<div style="color: red; text-align: center; margin-bottom: 1rem;">Could not connect to the server.</div>`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

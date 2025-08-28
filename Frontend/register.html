@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup | HeartCare</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+<body class="auth-background">
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="nav_logo">Heart Care</a>
+            <button class="button" id="signup-button">Signup</button>
+        </nav>
+    </header>
+
+    <section class="home">
+        <div class="form_container">
+            <div class="form signup_form">
+                <form id="register-form">
+                    <h2>Signup</h2>
+                    <div id="auth-message"></div>
+                    <div class="input_box">
+                        <input type="text" id="register-name" placeholder="Enter your full name" required />
+                        <i class="uil uil-user user"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="email" id="register-email" placeholder="Enter your email" required />
+                        <i class="uil uil-envelope-alt email"></i>
+                    </div>
+                    <div class="input_box">
+                        <input type="password" id="register-password" placeholder="Create password" required />
+                        <i class="uil uil-lock password"></i>
+                    </div>
+                    <button type="submit" class="button">Signup Now</button>
+                    <div class="login_signup">Already have an account? <a href="login.html">Login</a></div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // JavaScript for register
+        document.addEventListener('DOMContentLoaded', () => {
+            const API_BASE_URL = 'http://localhost:8080';
+            const registerForm = document.getElementById('register-form');
+            const authMessage = document.getElementById('auth-message');
+
+            registerForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('register-name').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, email, password })
+                    });
+
+                    const responseBody = await response.text();
+                    if (response.ok) {
+                        authMessage.innerHTML = `<div style="color: green; text-align: center; margin-bottom: 1rem;">${responseBody}. Redirecting...</div>`;
+                        setTimeout(() => {
+                            window.location.href = './login.html';
+                        }, 2000);
+                    } else {
+                        authMessage.innerHTML = `<div style="color: red; text-align: center; margin-bottom: 1rem;">${responseBody}</div>`;
+                    }
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    authMessage.innerHTML = `<div style="color: red; text-align: center; margin-bottom: 1rem;">Could not connect to the server.</div>`;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

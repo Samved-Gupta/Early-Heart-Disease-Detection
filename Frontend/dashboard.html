@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Heart Disease Detection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body class="app-background">
+    <header class="page-header">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-gray-800">Heart Care</div>
+            <div class="space-x-4">
+                <a href="./predict.html" class="text-gray-600 hover:text-purple-600">Predict</a>
+                <a href="./dashboard.html" class="text-purple-600 font-semibold">Dashboard</a>
+                <button id="logout-btn" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mx-auto p-4 flex justify-center">
+        <div class="page-container w-full max-w-4xl mt-10">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Prediction History</h2>
+            <div id="history-container" class="overflow-x-auto">
+                <!-- Table will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/dashboard.js"></script>
+</body>
+</html>
