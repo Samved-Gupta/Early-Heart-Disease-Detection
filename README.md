@@ -1,114 +1,121 @@
-Early Heart Disease Detection System
-This is a full-stack web application designed to predict the risk of early-onset heart disease based on user-provided health metrics. The system uses a machine learning model served via a Python Flask API, a robust backend built with Spring Boot, and a user-friendly frontend created with HTML, CSS, and JavaScript.
+# Early Heart Disease Detection System
 
-Features
-User Authentication: Secure user registration and login system.
+A full-stack web application designed to predict the risk of early-onset heart disease based on user-provided health metrics. The system uses a machine learning model served via a Python Flask API, a robust backend built with Spring Boot, and a user-friendly frontend.
 
-Password Reset: OTP-based password reset functionality using Gmail.
+## ✨ Features
 
-ML-Powered Predictions: Users can input their health data to receive a real-time prediction of their heart disease risk.
+-   **User Authentication**: Secure user registration and login system.
+-   **Password Reset**: OTP-based password reset functionality using Gmail.
+-   **ML-Powered Predictions**: Users can input health data to receive a real-time prediction of their heart disease risk.
+-   **Prediction History**: A dashboard for users to view their past prediction results.
+-   **Model Bake-off**: The ML server automatically trains multiple models (Logistic Regression, Random Forest, SVM) and uses the most accurate one for predictions.
 
-Prediction History: A dashboard for users to view their past prediction results.
+## 🛠️ Tech Stack
 
-Model Bake-off: The ML server automatically trains multiple models (Logistic Regression, Random Forest, SVM) and uses the most accurate one for predictions.
+-   **Frontend**: HTML, Tailwind CSS, JavaScript
+-   **Backend**: Java, Spring Boot, Spring Security, Spring Data JPA
+-   **Machine Learning Server**: Python, Flask, Scikit-learn, Pandas
+-   **Database**: MySQL
 
-Tech Stack
-Frontend: HTML, Tailwind CSS, JavaScript
+## 📂 Project Structure
 
-Backend: Java, Spring Boot, Spring Security, Spring Data JPA
-
-Machine Learning Server: Python, Flask, Scikit-learn, Pandas
-
-Database: MySQL
-
-Project Structure
 The project is divided into three main parts:
 
-FRONTEND/: Contains all the client-side files (.html, .css, .js).
+-   `FRONTEND/`: Contains all the client-side files (`.html`, `.css`, `.js`).
+-   `Backend/`: The complete Spring Boot application.
+-   `ML Server/`: The Python Flask server that handles machine learning predictions.
 
-Backend/: The complete Spring Boot application.
+## 🚀 Setup & Installation
 
-ML Server/: The Python Flask server that handles machine learning predictions.
+### Prerequisites
 
-Setup & Installation
-Prerequisites
-Java 17 or later
+-   Java 17 or later
+-   Maven
+-   Python 3.8 or later
+-   MySQL Server
+-   A Gmail account with an [App Password](https://support.google.com/accounts/answer/185833) enabled.
 
-Maven
+---
 
-Python 3.8 or later
+### 1. Backend Setup (Spring Boot)
 
-MySQL Server
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/Samved-Gupta/Early-Heart-Disease-Detection.git](https://github.com/Samved-Gupta/Early-Heart-Disease-Detection.git)
+    cd "Early Heart Disease Detection/Backend"
+    ```
 
-A Gmail account with an App Password enabled.
+2.  **Create MySQL Database:**
+    ```sql
+    CREATE DATABASE heart_disease_db;
+    ```
 
-1. Backend Setup (Spring Boot)
-Clone the repository:
+3.  **Configure Application Properties:**
+    Navigate to `src/main/resources/` and open the `application.properties` file. Update the following properties with your credentials.
 
-git clone https://github.com/Samved-Gupta/Early-Heart-Disease-Detection.git
-cd "Early Heart Disease Detection/Backend"
+    ```properties
+    # 🚨 SECURITY NOTICE: Do NOT commit this file with your real passwords!
+    # Use environment variables or a secrets management tool in production.
 
-Create MySQL Database:
+    # MySQL Database Connection
+    spring.datasource.url=jdbc:mysql://localhost:3306/heart_disease_db
+    spring.datasource.username=your_mysql_username
+    spring.datasource.password=your_mysql_password
 
-Open your MySQL client and create a new database.
+    # Gmail Configuration for OTP
+    spring.mail.username=your-email@gmail.com
+    spring.mail.password=your-16-character-app-password
+    ```
 
-CREATE DATABASE heart_disease_db;
+4.  **Run the Backend Server:**
+    Open the project in your IDE (e.g., IntelliJ IDEA) and run the `Application.java` file. The server will start on `http://localhost:8080`.
 
-Configure Application Properties:
+---
 
-Navigate to src/main/resources/ and open the application.properties file.
+### 2. ML Server Setup (Python Flask)
 
-Update the following properties with your credentials.
+1.  **Navigate to the ML Server directory:**
+    ```bash
+    # From the project root
+    cd "ML Server"
+    ```
 
-# 🚨 SECURITY NOTICE: Do NOT commit this file with your real passwords!
-# Use environment variables or a secrets management tool in production.
+2.  **Create a virtual environment and install dependencies:**
+    ```bash
+    # Create the virtual environment
+    python -m venv venv
 
-# MySQL Database Connection
-spring.datasource.username=your_mysql_username
-spring.datasource.password=your_mysql_password
+    # Activate it (Windows)
+    venv\Scripts\activate
 
-# Gmail Configuration for OTP
-spring.mail.username=your-email@gmail.com
-spring.mail.password=your-16-character-app-password
+    # Activate it (macOS/Linux)
+    # source venv/bin/activate
 
-Run the Backend Server:
+    # Install packages
+    pip install -r requirements.txt
+    ```
 
-Open the project in IntelliJ IDEA or your preferred IDE.
+3.  **Train the ML Model:**
+    Run the training script once to generate the `best_model.pkl` file.
+    ```bash
+    python train_model.py
+    ```
 
-Run the Application.java file. The server will start on http://localhost:8080.
+4.  **Run the ML Server:**
+    Use Waitress to run the server.
+    ```bash
+    waitress-serve --host 127.0.0.1 --port=5000 app:app
+    ```
+    The ML server will be available at `http://localhost:5000`.
 
-2. ML Server Setup (Python Flask)
-Navigate to the ML Server directory:
+---
 
-cd "../ML Server"
+### 3. Frontend Setup
 
-Create a virtual environment and install dependencies:
-
-python -m venv venv
-# On Windows
-venv\Scripts\activate
-# On macOS/Linux
-# source venv/bin/activate
-
-pip install -r requirements.txt
-
-Train the ML Model:
-
-Run the training script once to generate the model file.
-
-python train_model.py
-
-Run the ML Server:
-
-Use Waitress to run the server in production mode.
-
-waitress-serve --host 127.0.0.1 --port=5000 app:app
-
-The ML server will be available at http://localhost:5000.
-
-3. Frontend Setup
-Open the HTML files:
-
-Navigate to the FRONTEND/ directory.
-
-Open the login.html file in your web browser to start the application.
+1.  **Navigate to the Frontend directory:**
+    ```bash
+    # From the project root
+    cd "Frontend"
+    ```
+2.  **Open the HTML files:**
+    Open the `login.html` file in your web browser to start the application.
